@@ -24,6 +24,8 @@ public:
     [[nodiscard]] int search(int ele) const noexcept;
 
     void print() const;
+
+    void update(std::size_t index, int ele);
 };
 
 #endif //STATICARRAY_STATIC_ARRAY_H
