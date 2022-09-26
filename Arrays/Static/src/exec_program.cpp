@@ -3,13 +3,14 @@
 //
 
 #include"static_array.h"
+#include <iostream>
 
 int main()
 {
     StaticArray static_array{};
+    static_array.insert(33, 0);
+    std::cout << "After inserting\n";
     static_array.print();
-    static_array.insert(3);
-    static_array.insert(8, 0);
-    static_array.print();
+    std::cout << static_array.search(8) << '\n';
     return 0;
 }
