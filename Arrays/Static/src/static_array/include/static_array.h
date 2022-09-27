@@ -10,7 +10,7 @@
 
 class StaticArray
 {
-    static constexpr int capacity{100};
+    static constexpr std::size_t capacity{100};
     int m_data[capacity]{};
     std::size_t m_length{0};
 
@@ -23,9 +23,13 @@ public:
 
     [[nodiscard]] int search(int ele) const noexcept;
 
+    [[nodiscard]] int element_at(std::size_t index) const;
+
     void print() const;
 
     void update(std::size_t index, int ele);
+
+    void remove(size_t index);
 };
 
 #endif //STATICARRAY_STATIC_ARRAY_H

@@ -61,6 +61,15 @@ void StaticArray::print() const
     }
 }
 
+int StaticArray::element_at(std::size_t index) const
+{
+    if (index >= m_length)
+    {
+        throw std::out_of_range{"Array index is out of bounds"};
+    }
+    return m_data[index];
+}
+
 void StaticArray::update(std::size_t index, int ele)
 {
     if (index >= m_length)
@@ -69,5 +78,20 @@ void StaticArray::update(std::size_t index, int ele)
     } else
     {
         m_data[index] = ele;
+    }
+}
+
+void StaticArray::remove(std::size_t index)
+{
+    if (index >= m_length)
+    {
+        throw std::out_of_range{"Array index is out of bounds"};
+    } else
+    {
+        for (std::size_t i{index}; i < (m_length - 1); ++i)
+        {
+            m_data[i] = m_data[i + i];
+        }
+        --m_length;
     }
 }
