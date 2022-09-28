@@ -90,7 +90,7 @@ void StaticArray::remove(std::size_t index)
     {
         for (std::size_t i{index}; i < (m_length - 1); ++i)
         {
-            m_data[i] = m_data[i + i];
+            m_data[i] = m_data[i + 1];
         }
         --m_length;
     }
