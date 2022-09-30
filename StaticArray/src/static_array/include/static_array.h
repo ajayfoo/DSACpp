@@ -29,6 +29,17 @@ class StaticArray
     }
 
 public:
+    StaticArray() = default;
+
+    StaticArray(std::initializer_list<T> list) : m_length{list.size()}
+    {
+        for (std::size_t i{0}; auto ele: list)
+        {
+            m_data[i] = ele;
+            ++i;
+        }
+    }
+
     void insert(T ele)
     {
         if (is_full())
