@@ -56,7 +56,7 @@ public:
         m_data[index] = ele;
     }
 
-    [[nodiscard]] T search(T ele) const noexcept
+    [[nodiscard]] int search(T ele) const noexcept
     {
         for (std::size_t i{0}; i < m_length; ++i)
         {
