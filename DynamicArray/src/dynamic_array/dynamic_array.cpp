@@ -49,38 +49,47 @@ void DynamicArray::copy_to(std::unique_ptr<int[]>& new_array_ptr)
     }
 }
 
-void DynamicArray::expand_array()
+void DynamicArray::expand_array_if_needed()
 {
-    std::unique_ptr<int[]> new_array_ptr = std::make_unique<int[]>(m_capacity + EXTRA_SPACE);
-    copy_to(new_array_ptr);
-    m_array_ptr.release();
-    m_array_ptr = std::move(new_array_ptr);
-    m_capacity = m_capacity + EXTRA_SPACE;
+    if (is_full())
+    {
+        std::unique_ptr<int[]> new_array_ptr = std::make_unique<int[]>(m_capacity + EXTRA_SPACE_FOR_ARRAY);
+        copy_to(new_array_ptr);
+        m_array_ptr.release();
+        m_array_ptr = std::move(new_array_ptr);
+        m_capacity = m_capacity + EXTRA_SPACE_FOR_ARRAY;
+    }
 }
 
-void DynamicArray::check_index_bounds(std::size_t index)const
+void DynamicArray::shrink_array_if_needed()
+{
+    if (m_capacity - m_length > EXTRA_SPACE_FOR_ARRAY * 2)
+    {
+        std::unique_ptr<int[]> new_array_ptr = std::make_unique<int[]>(m_length + EXTRA_SPACE_FOR_ARRAY);
+        copy_to(new_array_ptr);
+        m_array_ptr.release();
+        m_array_ptr = std::move(new_array_ptr);
+        m_capacity = m_length + EXTRA_SPACE_FOR_ARRAY;
+    }
+}
+void DynamicArray::check_index_bounds(std::size_t index) const
 {
     if (index >= m_length)
     {
         throw std::out_of_range{"Array's index is out of bounds"};
     }
 }
+
 void DynamicArray::insert(int ele)
 {
-    if (is_full())
-    {
-        expand_array();
-    }
+    expand_array_if_needed();
     m_array_ptr[m_length] = ele;
     ++m_length;
 }
 
 void DynamicArray::insert(int ele, std::size_t index)
 {
-    if (is_full())
-    {
-        expand_array();
-    }
+    expand_array_if_needed();
     check_index_bounds(index);
     ++m_length;
     for (std::size_t i{m_length}; i > index; --i)
@@ -115,7 +124,19 @@ void DynamicArray::print() const
     return -1;
 }
 
+void DynamicArray::remove()
+{
+    --m_length;
+    shrink_array_if_needed();
+}
 void DynamicArray::remove(std::size_t index)
 {
+    check_index_bounds(index);
 
+    for (size_t i = index; i < (m_length - 1); ++i)
+    {
+        m_array_ptr[i] = m_array_ptr[i + 1];
+    }
+    --m_length;
+    shrink_array_if_needed();
 }
