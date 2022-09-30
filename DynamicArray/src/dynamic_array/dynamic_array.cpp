@@ -58,6 +58,13 @@ void DynamicArray::expand_array()
     m_capacity = m_capacity + EXTRA_SPACE;
 }
 
+void DynamicArray::check_index_bounds(std::size_t index)const
+{
+    if (index >= m_length)
+    {
+        throw std::out_of_range{"Array's index is out of bounds"};
+    }
+}
 void DynamicArray::insert(int ele)
 {
     if (is_full())
@@ -74,18 +81,13 @@ void DynamicArray::insert(int ele, std::size_t index)
     {
         expand_array();
     }
-    if (index > m_length)
+    check_index_bounds(index);
+    ++m_length;
+    for (std::size_t i{m_length}; i > index; --i)
     {
-        throw std::out_of_range{"Array's index is out of bounds"};
-    } else
-    {
-        ++m_length;
-        for (std::size_t i{m_length}; i > index; --i)
-        {
-            m_array_ptr[i] = m_array_ptr[i - 1];
-        }
-        m_array_ptr[index] = ele;
+        m_array_ptr[i] = m_array_ptr[i - 1];
     }
+    m_array_ptr[index] = ele;
 }
 
 void DynamicArray::print() const
@@ -98,12 +100,9 @@ void DynamicArray::print() const
     }
 }
 
-[[nodiscard]]int DynamicArray::operator[](std::size_t index) const
+[[nodiscard]]int& DynamicArray::operator[](std::size_t index)
 {
-    if (index >= m_length)
-    {
-        throw std::out_of_range{"Array's index is out of bounds"};
-    }
+    check_index_bounds(index);
     return m_array_ptr[index];
 }
 
@@ -114,4 +113,9 @@ void DynamicArray::print() const
         if (m_array_ptr[i] == ele)return i;
     }
     return -1;
+}
+
+void DynamicArray::remove(std::size_t index)
+{
+
 }

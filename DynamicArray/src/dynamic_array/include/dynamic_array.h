@@ -22,6 +22,8 @@ class DynamicArray
 
     void expand_array();
 
+    void check_index_bounds(std::size_t index)const;
+
 public:
     DynamicArray();
 
@@ -37,10 +39,11 @@ public:
 
     void print() const;
 
-    [[nodiscard]]int operator[](std::size_t index) const;
+    [[nodiscard]]int& operator[](std::size_t index);
 
     [[nodiscard]]int search(int ele) const;
 
+    void remove(std::size_t index);
 };
 
 #endif //DYNAMICARRAY_DYNAMIC_ARRAY_H
