@@ -51,10 +51,6 @@ public:
     }
     void print()
     {
-        if(is_empty())
-        {
-            throw std::length_error("Stack is empty.");
-        }
         std::cout<<"Stack Top: "<<m_top<<" Capacity: "<<m_capacity<<'\n';
         for(int i{m_top};i>=0;--i)
         {
