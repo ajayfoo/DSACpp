@@ -29,6 +29,8 @@ class DynamicArray
 public:
     DynamicArray();
 
+    DynamicArray(std::initializer_list<int> list);
+
     DynamicArray(const DynamicArray& array);
 
     DynamicArray& operator=(const DynamicArray& array);

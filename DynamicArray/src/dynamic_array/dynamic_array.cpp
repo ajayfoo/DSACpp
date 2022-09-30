@@ -6,6 +6,16 @@
 
 DynamicArray::DynamicArray() = default;
 
+DynamicArray::DynamicArray(std::initializer_list<int> list) : m_capacity{list.size()}, m_length{list.size()},
+                                                              m_array_ptr{std::make_unique<int[]>(list.size())}
+{
+    for (std::size_t i{0}; auto ele:list)
+    {
+        m_array_ptr[i] = ele;
+        ++i;
+    }
+}
+
 DynamicArray::DynamicArray(std::size_t capacity) : m_capacity{capacity}, m_array_ptr{std::make_unique<int[]>(capacity)}
 {
 
@@ -72,6 +82,7 @@ void DynamicArray::shrink_array_if_needed()
         m_capacity = m_length + EXTRA_SPACE_FOR_ARRAY;
     }
 }
+
 void DynamicArray::check_index_bounds(std::size_t index) const
 {
     if (index >= m_length)
@@ -102,7 +113,6 @@ void DynamicArray::insert(int ele, std::size_t index)
 void DynamicArray::print() const
 {
     std::cout << "Array Length: " << m_length << " Capacity: " << m_capacity << '\n';
-    std::cout << m_array_ptr[0] << '\n';
     for (int i{0}; i < m_length; ++i)
     {
         std::cout << "DynamicArray[" << i << "] : " << m_array_ptr.get()[i] << '\n';
@@ -129,6 +139,7 @@ void DynamicArray::remove()
     --m_length;
     shrink_array_if_needed();
 }
+
 void DynamicArray::remove(std::size_t index)
 {
     check_index_bounds(index);

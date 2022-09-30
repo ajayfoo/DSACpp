@@ -6,7 +6,7 @@
 
 int main()
 {
-    DynamicArray dynamic_array{1};
+    DynamicArray dynamic_array{};
     dynamic_array.insert(9);
     dynamic_array.insert(11);
     dynamic_array.insert(13);
