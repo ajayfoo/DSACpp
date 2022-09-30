@@ -29,7 +29,7 @@ class StaticArray
     }
 
 public:
-    void insert(int ele)
+    void insert(T ele)
     {
         if (is_full())
         {
