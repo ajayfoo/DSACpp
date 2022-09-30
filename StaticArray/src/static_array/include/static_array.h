@@ -10,11 +10,13 @@
 
 class StaticArray
 {
-    static constexpr std::size_t capacity{100};
-    int m_data[capacity]{};
+    static constexpr std::size_t m_capacity{100};
+    int m_data[m_capacity]{};
     std::size_t m_length{0};
 
     [[nodiscard]] bool is_full() const noexcept;
+
+    void check_index_bounds(std::size_t index) const;
 
 public:
     void insert(int ele);
@@ -23,11 +25,11 @@ public:
 
     [[nodiscard]] int search(int ele) const noexcept;
 
-    [[nodiscard]] int element_at(std::size_t index) const;
-
     void print() const;
 
-    void update(std::size_t index, int ele);
+    [[nodiscard]] int& operator[](std::size_t index);
+
+    void remove();
 
     void remove(size_t index);
 };
