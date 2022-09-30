@@ -15,11 +15,15 @@ class DynamicArray
     std::size_t m_capacity{};
     static constexpr int EXTRA_SPACE{10};
     std::unique_ptr<int[]> m_array_ptr{};
-    [[nodiscard]] bool array_is_full() const;
+    [[nodiscard]] bool is_full() const noexcept;
+    void copy_to(std::unique_ptr<int[]>& new_array_ptr);
     void expand_array();
 public:
     void insert(int ele);
+    void insert(int ele,std::size_t index);
     DynamicArray()=delete;
+    DynamicArray(const DynamicArray& array);
+    DynamicArray& operator=(const DynamicArray& array);
     explicit DynamicArray(std::size_t capacity);
     void print();
 };
