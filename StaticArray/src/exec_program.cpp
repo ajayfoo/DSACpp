@@ -6,7 +6,7 @@
 
 int main()
 {
-    StaticArray static_array{};
+    StaticArray<int,10> static_array{};
     static_array.insert(8);
     static_array.insert(9);
     static_array.insert(10);
