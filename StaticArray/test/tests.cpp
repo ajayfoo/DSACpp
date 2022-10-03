@@ -7,7 +7,6 @@
 
 TEST(StaticArrayTest, EmptyArray)
 {
-    StaticArray staticArray{};
-    staticArray.insert(8);
-    EXPECT_EQ(staticArray.element_at(0), 8);
+    StaticArray<int,0> static_array{};
+    EXPECT_EQ(static_array.get_length(), 0);
 }

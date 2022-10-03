@@ -40,6 +40,10 @@ public:
         }
     }
 
+    [[nodiscard]] int get_length()const
+    {
+        return m_length;
+    }
     void insert(T ele)
     {
         if (is_full())
