@@ -11,16 +11,16 @@ FetchContent_MakeAvailable(gtest)
 
 enable_testing()
 
-add_executable(run_io_tests
+add_executable(io_tests
         io_tests.cpp
         )
 
-add_executable(run_non_io_tests
+add_executable(non_io_tests
         insertion_tests.cpp
 )
-target_link_libraries(run_non_io_tests
+target_link_libraries(non_io_tests
         PRIVATE GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(run_non_io_tests)
+gtest_discover_tests(non_io_tests)
