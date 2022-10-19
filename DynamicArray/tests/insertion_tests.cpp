@@ -7,13 +7,13 @@
 
 TEST(InsertionTests,EmptyArray)
 {
-    DynamicArray dynamic_array{};
+    ds_impl::DynamicArray dynamic_array{};
     ASSERT_EQ(dynamic_array.get_length(),0);
 }
 
 TEST(InsertionTests,InsertInMiddle)
 {
-    DynamicArray dynamic_array{1,2,3,4,5};
+    ds_impl::DynamicArray dynamic_array{1,2,3,4,5};
     dynamic_array.insert(88,2);
     ASSERT_EQ(dynamic_array[2],88);
 }

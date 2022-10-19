@@ -5,7 +5,7 @@
 
 void test_print_array()
 {
-    DynamicArray dynamic_array{1,2,3,4,5};
+    ds_impl::DynamicArray dynamic_array{1,2,3,4,5};
     dynamic_array.print();
 }
 
