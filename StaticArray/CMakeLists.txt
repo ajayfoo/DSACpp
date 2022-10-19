@@ -6,7 +6,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_EXTENSIONS ON)
 
-add_subdirectory(src)
-add_subdirectory(test)
+set(DO_TESTS TRUE)
 
-target_link_libraries(tests PRIVATE static_array)
+add_subdirectory(src)
+
+if(DO_TESTS)
+    add_subdirectory(test)
+    target_link_libraries(run_io_tests PRIVATE static_array)
+    target_link_libraries(run_non_io_tests PRIVATE static_array)
+endif()

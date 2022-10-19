@@ -4,19 +4,23 @@ include(FetchContent)
 FetchContent_Declare(
         gtest
         GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG release-1.12.1
+        GIT_TAG main
 )
 
 FetchContent_MakeAvailable(gtest)
 
 enable_testing()
-add_executable(
-        tests
-        tests.cpp
+
+add_executable(run_io_tests
+        io_tests.cpp
+        )
+
+add_executable(run_non_io_tests
+        indexing_tests.cpp
 )
-target_link_libraries(
-        tests PRIVATE GTest::gtest_main
+target_link_libraries(run_non_io_tests
+        PRIVATE GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(tests)
+gtest_discover_tests(run_non_io_tests)

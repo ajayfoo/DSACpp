@@ -33,6 +33,10 @@ public:
 
     StaticArray(std::initializer_list<T> list) : m_length{list.size()}
     {
+        if(m_length>N)
+        {
+            throw std::length_error("Length of array exceeded its capacity.");
+        }
         for (std::size_t i{0}; auto ele: list)
         {
             m_data[i] = ele;
