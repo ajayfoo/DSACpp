@@ -6,7 +6,7 @@
 
 void test_print_stack()
 {
-    Stack<int,5> stack{};
+    ds_impl::Stack<int,5> stack{};
     stack.push(1);
     stack.push(2);
     stack.push(3);

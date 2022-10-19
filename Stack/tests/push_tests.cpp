@@ -7,13 +7,13 @@
 
 TEST(PushTests,EmptyStack)
 {
-    Stack<int,2> stack{};
+    ds_impl::Stack<int,2> stack{};
     ASSERT_EQ(stack.get_length(),0);
 }
 
 TEST(PushTests,Push)
 {
-    Stack<int,1> stack{};
+    ds_impl::Stack<int,1> stack{};
     stack.push(3);
     ASSERT_EQ(stack.peek(),3);
 }
