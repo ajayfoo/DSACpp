@@ -37,6 +37,8 @@ public:
 
     explicit DynamicArray(std::size_t capacity);
 
+    [[nodiscard]] std::size_t get_length()const;
+
     void insert(int ele);
 
     void insert(int ele, std::size_t index);

@@ -91,6 +91,11 @@ void DynamicArray::check_index_bounds(std::size_t index) const
     }
 }
 
+[[nodiscard]]std::size_t DynamicArray::get_length()const
+{
+    return m_length;
+}
+
 void DynamicArray::insert(int ele)
 {
     expand_array_if_needed();
@@ -151,3 +156,4 @@ void DynamicArray::remove(std::size_t index)
     --m_length;
     shrink_array_if_needed();
 }
+
