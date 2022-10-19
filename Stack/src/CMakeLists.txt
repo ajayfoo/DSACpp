@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.23)
 
-add_subdirectory(stack)
-
-add_executable(exec_program exec_program.cpp)
-
-target_link_libraries(exec_program PRIVATE stack)
+add_library(stack STATIC include/stack.h)
+set_target_properties(stack PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(stack PUBLIC include)

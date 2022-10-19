@@ -25,6 +25,7 @@ class Stack
         return m_top==(m_capacity-1);
     }
 public:
+    Stack()=default;
     void push(T ele)
     {
         if(is_full())
@@ -56,6 +57,10 @@ public:
         {
             std::cout<<m_data[i]<<'\n';
         }
+    }
+    [[nodiscard]]std::size_t get_length()const
+    {
+        return static_cast<std::size_t>(m_top+1);
     }
 };
 
