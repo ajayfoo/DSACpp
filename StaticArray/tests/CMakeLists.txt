@@ -13,9 +13,9 @@ enable_testing()
 
 add_executable(io_tests
         io_tests.cpp
-        )
-
+)
 add_executable(non_io_tests
+        generic_tests.cpp
         insertion_tests.cpp
 )
 target_link_libraries(non_io_tests
