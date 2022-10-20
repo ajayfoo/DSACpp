@@ -3,17 +3,39 @@
 //
 
 #include "static_array.h"
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
+#include <array>
 
-TEST(InsertionTests, EmptyArray)
+TEST(Generic, NewArrayLenghtIsZero)
 {
-    ds_impl::StaticArray<int,0> static_array{};
-    ASSERT_EQ(static_array.get_length(), 0);
+    constexpr ds_impl::StaticArray<int,0> static_array{};
+    ASSERT_EQ(static_array.get_length(),0);
 }
 
-TEST(InsertionTests, InsertInTheMiddle)
+TEST(InsertAtHead, InsertWithZeroElement)
 {
-    ds_impl::StaticArray<int,5> static_array{1,2,3};
-    static_array.insert(98,1);
-    ASSERT_EQ(static_array[1],98);
+    constexpr int new_element{3};
+    ds_impl::StaticArray<int,5> static_array{};
+    static_array.insert(new_element);
+    ASSERT_EQ(static_array[0],new_element);
+}
+
+TEST(InsertAtHead, InsertWithOneElement)
+{
+    constexpr int new_element{4};
+    ds_impl::StaticArray<int,1> static_array{};
+    static_array.insert(new_element);
+    ASSERT_EQ(static_array[0],new_element);
+}
+
+TEST(InsertAtHead, InsertMultipleElements)
+{
+    constexpr std::array new_elements{1,2,3,4,5,6};
+    constexpr std::size_t num_elements{new_elements.size()};
+    ds_impl::StaticArray<int,num_elements> static_array{};
+    for(auto ele: new_elements)
+    {
+        static_array.insert(ele);
+    }
+    ASSERT_EQ(static_array[3],4);
 }
