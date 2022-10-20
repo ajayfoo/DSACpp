@@ -3,7 +3,7 @@
 //
 #include "static_array.h"
 
-void test_print_static_array()
+void test_print()
 {
     ds_impl::StaticArray<int,10> static_array{1,2,3,4,5};
     static_array.print();
@@ -11,6 +11,6 @@ void test_print_static_array()
 
 int main()
 {
-    test_print_static_array();
+    test_print();
     return 0;
 }

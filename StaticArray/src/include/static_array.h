@@ -22,6 +22,13 @@ namespace ds_impl
             return m_capacity == m_length;
         }
 
+        void check_capacity()const
+        {
+            if(is_full())
+            {
+                throw std::length_error("Array is full.");
+            }
+        }
         void check_index_bounds(std::size_t index) const
         {
             if (index >= m_length)
@@ -52,28 +59,20 @@ namespace ds_impl
         }
         void insert(T ele)
         {
-            if (is_full())
-            {
-                throw std::length_error{"Array is full"};
-            } else
-            {
-                m_data[m_length] = ele;
-                ++m_length;
-            }
+            check_capacity();
+            m_data[m_length] = ele;
+            ++m_length;
         }
 
         void insert(T ele, std::size_t index)
         {
-            if (is_full())
-            {
-                throw std::length_error{"Array is full"};
-            }
+            check_capacity();
             check_index_bounds(index);
-            ++m_length;
             for (std::size_t i{m_length}; i > index; --i)
             {
                 m_data[i] = m_data[i - 1];
             }
+            ++m_length;
             m_data[index] = ele;
         }
 
