@@ -6,6 +6,6 @@
 
 TEST(OtherTests, NewArrayLenghtIsZero)
 {
-    constexpr ds_impl::StaticArray<int,0> static_array{};
-    ASSERT_EQ(static_array.get_length(),0);
+    constexpr ds_impl::StaticArray<int, 0> static_array{};
+    ASSERT_EQ(static_array.get_length(), 0);
 }

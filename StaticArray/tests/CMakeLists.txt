@@ -17,7 +17,8 @@ add_executable(io_tests
 add_executable(non_io_tests
         other_tests.cpp
         insertion_tests.cpp
-)
+        deletion_tests.cpp
+        )
 target_link_libraries(non_io_tests
         PRIVATE GTest::gtest_main
 )

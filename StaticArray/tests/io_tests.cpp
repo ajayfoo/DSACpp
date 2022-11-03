@@ -5,7 +5,7 @@
 
 void test_print()
 {
-    ds_impl::StaticArray<int,10> static_array{1,2,3,4,5};
+    ds_impl::StaticArray<int, 4> static_array{1, 2, 3, 4};
     static_array.print();
 }
 
