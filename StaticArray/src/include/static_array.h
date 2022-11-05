@@ -8,6 +8,7 @@
 #include <array>
 #include <iostream>
 #include <stdexcept>
+#include<any>
 
 namespace ds_impl
 {
@@ -43,7 +44,7 @@ class StaticArray
     }
 
   public:
-    constexpr StaticArray() = default;
+    constexpr StaticArray()=default;
     constexpr StaticArray(const std::initializer_list<T>& list) : m_length{list.size()}
     {
         if (m_length > N)
@@ -128,8 +129,12 @@ class StaticArray
     }
 };
 
-template< typename T, typename... U>
- StaticArray(T,U...)->StaticArray<T,1+sizeof...(U)>;
+template<typename T,typename... U>
+StaticArray(T,U...)->StaticArray<T,1+sizeof...(U)>;
+
+template<typename... T>
+StaticArray(T...)->StaticArray<std::any,0>;
+
 
 } // namespace ds_impl
 
