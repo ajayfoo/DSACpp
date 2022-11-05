@@ -23,14 +23,14 @@ class StaticArray
         return m_capacity == m_length;
     }
 
-    void check_capacity() const
+    auto check_capacity() const -> void
     {
         if (is_full())
         {
             throw std::length_error("Array is full.");
         }
     }
-    void check_index_bounds(std::size_t index) const
+    auto check_index_bounds(std::size_t index) const -> void
     {
         if (index == 0 && m_length == 0)
         {
@@ -56,18 +56,18 @@ class StaticArray
             ++i;
         }
     }
-    [[nodiscard]] constexpr int get_length() const
+    [[nodiscard]] constexpr auto get_length() const -> int
     {
         return m_length;
     }
-    void insert(T ele)
+    auto insert(T ele) -> void
     {
         check_capacity();
         m_data[m_length] = ele;
         ++m_length;
     }
 
-    void insert(T ele, std::size_t index)
+    auto insert(T ele, std::size_t index) -> void
     {
         check_capacity();
         check_index_bounds(index);
@@ -79,7 +79,7 @@ class StaticArray
         m_data[index] = ele;
     }
 
-    [[nodiscard]] int search(T ele) const noexcept
+    [[nodiscard]] auto search(T ele) const noexcept -> int
     {
         for (std::size_t i{0}; i < m_length; ++i)
         {
@@ -89,7 +89,7 @@ class StaticArray
         return -1;
     }
 
-    void print() const
+    auto print() const -> void
     {
         std::cout << "Array Length: " << m_length << " Capacity: " << m_capacity << '\n';
         for (std::size_t i{0}; i < m_length; ++i)
@@ -98,17 +98,17 @@ class StaticArray
         }
     }
 
-    [[nodiscard]] T &operator[](std::size_t index)
+    [[nodiscard]] auto operator[](std::size_t index) -> T &
     {
         check_index_bounds(index);
         return m_data[index];
     }
-    [[nodiscard]] T operator[](std::size_t index)const
+    [[nodiscard]] auto operator[](std::size_t index)const -> T
     {
         check_index_bounds(index);
         return m_data[index];
     }
-    void remove()
+    auto remove() -> void
     {
         if(m_length==0)
         {
@@ -117,7 +117,7 @@ class StaticArray
         --m_length;
     }
 
-    void remove(size_t index)
+    auto remove(size_t index) -> void
     {
         check_index_bounds(index);
         for (std::size_t i{index}; i < (m_length - 1); ++i)

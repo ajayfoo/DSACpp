@@ -13,15 +13,15 @@ enable_testing()
 
 add_executable(io_tests
         io_tests.cpp
-)
+        )
 add_executable(non_io_tests
         other_tests.cpp
         insertion_tests.cpp
         deletion_tests.cpp
-        )
+        search_tests.cpp)
 target_link_libraries(non_io_tests
         PRIVATE GTest::gtest_main
-)
+        )
 
 include(GoogleTest)
 gtest_discover_tests(non_io_tests)

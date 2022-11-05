@@ -6,12 +6,12 @@
 #include "gtest/gtest.h"
 #include <exception>
 
-static constexpr ds_impl::StaticArray<int, 4> dummy_static_array{1, 2, 3, 4};
+static constexpr ds_impl::StaticArray dummy_static_array{1, 2, 3, 4};
 
 TEST(RemoveLast, WithZeroElements)
 {
     ds_impl::StaticArray<int, 0> static_array{};
-    bool                         exception_was_thrown{false};
+    bool exception_was_thrown{false};
     try
     {
         static_array.remove();

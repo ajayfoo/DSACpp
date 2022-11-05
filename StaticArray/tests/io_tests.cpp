@@ -3,13 +3,14 @@
 //
 #include "static_array.h"
 
-void test_print()
+static constexpr ds_impl::StaticArray dummy_static_array{1, 2, 3, 4};
+
+auto test_print() -> void
 {
-    ds_impl::StaticArray<int, 4> static_array{1, 2, 3, 4};
-    static_array.print();
+    dummy_static_array.print();
 }
 
-int main()
+auto main() -> int
 {
     test_print();
     return 0;

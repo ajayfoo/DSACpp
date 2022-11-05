@@ -5,7 +5,8 @@
 #include "static_array.h"
 #include "gtest/gtest.h"
 #include <array>
-static constexpr ds_impl::StaticArray<int, 4> dummy_static_array{1, 2, 3, 4};
+
+static constexpr ds_impl::StaticArray dummy_static_array{1, 2, 3, 4};
 
 TEST(InsertAtHead, InsertWithZeroElement)
 {
