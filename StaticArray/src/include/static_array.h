@@ -5,21 +5,20 @@
 #ifndef STATICARRAY_STATIC_ARRAY_H
 #define STATICARRAY_STATIC_ARRAY_H
 
+#include <any>
 #include <array>
 #include <iostream>
 #include <stdexcept>
-#include<any>
 
 namespace ds_impl
 {
-template <typename T, std::size_t N>
-class StaticArray
+template <typename T, std::size_t N> class StaticArray
 {
     static constexpr std::size_t m_capacity{N};
-    T                            m_data[m_capacity]{};
-    std::size_t                  m_length{0};
+    T m_data[m_capacity]{};
+    std::size_t m_length{0};
 
-    [[nodiscard]] auto           is_full() const noexcept -> bool
+    [[nodiscard]] auto is_full() const noexcept -> bool
     {
         return m_capacity == m_length;
     }
@@ -44,7 +43,7 @@ class StaticArray
     }
 
   public:
-    constexpr StaticArray()=default;
+    constexpr StaticArray() = default;
     constexpr StaticArray(const std::initializer_list<T>& list) : m_length{list.size()}
     {
         if (m_length > N)
@@ -99,19 +98,19 @@ class StaticArray
         }
     }
 
-    [[nodiscard]] auto operator[](std::size_t index) -> T &
+    [[nodiscard]] auto operator[](std::size_t index) -> T&
     {
         check_index_bounds(index);
         return m_data[index];
     }
-    [[nodiscard]] auto operator[](std::size_t index)const -> T
+    [[nodiscard]] auto operator[](std::size_t index) const -> T
     {
         check_index_bounds(index);
         return m_data[index];
     }
     auto remove() -> void
     {
-        if(m_length==0)
+        if (m_length == 0)
         {
             throw std::length_error("Remove operation failed, array is empty");
         }
@@ -129,12 +128,10 @@ class StaticArray
     }
 };
 
-template<typename T,typename... U>
-StaticArray(T,U...)->StaticArray<T,1+sizeof...(U)>;
+template <typename T, typename... U> StaticArray(T,U...args) -> StaticArray<T,1+ sizeof...(U)>;
+//1+ for the mandatory argument of type T
 
-template<typename... T>
-StaticArray(T...)->StaticArray<std::any,0>;
-
+template <typename... T> StaticArray(T...args) -> StaticArray<std::any, 0>;
 
 } // namespace ds_impl
 
