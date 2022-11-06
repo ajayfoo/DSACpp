@@ -1,0 +1,15 @@
+---
+Checks: "-*,
+    cppcoreguidelines-*,
+    -cppcoreguidelines-avoid-c-arrays,
+    clang-analyzer-core*,
+    performance-*,
+    portability-*,
+    modernize-*,
+    -modernize-avoid-c-arrays,
+"
+
+
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+FormatStyle: none
