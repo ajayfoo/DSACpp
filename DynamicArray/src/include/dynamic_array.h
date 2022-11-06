@@ -5,56 +5,160 @@
 #ifndef DYNAMICARRAY_DYNAMIC_ARRAY_H
 #define DYNAMICARRAY_DYNAMIC_ARRAY_H
 
-#include <cstddef>
+#include<any>
 #include <array>
+#include <cstddef>
+#include <iostream>
 #include <memory>
 
 namespace ds_impl
 {
-    class DynamicArray
+template <typename T> class DynamicArray
+{
+    std::size_t m_length{};
+    std::size_t m_capacity{};
+    static constexpr int EXTRA_SPACE_FOR_ARRAY{2};
+    std::unique_ptr<T[]> m_array_ptr{};
+
+    [[nodiscard]] auto is_full() const noexcept -> bool
     {
-        std::size_t m_length{};
-        std::size_t m_capacity{};
-        static constexpr int EXTRA_SPACE_FOR_ARRAY{2};
-        std::unique_ptr<int[]> m_array_ptr{};
+        return m_length == m_capacity;
+    }
+    auto copy_to(std::unique_ptr<T[]>& new_array_ptr) -> void
+    {
+        for (std::size_t i{0}; i < m_length; ++i)
+        {
+            new_array_ptr[i] = m_array_ptr[i];
+        }
+    }
+    void expand_array_if_needed()
+    {
+        if (is_full())
+        {
+            std::unique_ptr<T[]> new_array_ptr = std::make_unique<T[]>(m_capacity + EXTRA_SPACE_FOR_ARRAY);
+            copy_to(new_array_ptr);
+            m_array_ptr = std::move(new_array_ptr);
+            m_capacity = m_capacity + EXTRA_SPACE_FOR_ARRAY;
+        }
+    }
+    void shrink_array_if_needed()
+    {
+        if (m_capacity - m_length > EXTRA_SPACE_FOR_ARRAY * 2)
+        {
+            std::unique_ptr<T[]> new_array_ptr = std::make_unique<T[]>(m_length + EXTRA_SPACE_FOR_ARRAY);
+            copy_to(new_array_ptr);
+            m_array_ptr = std::move(new_array_ptr);
+            m_capacity = m_length + EXTRA_SPACE_FOR_ARRAY;
+        }
+    }
+    void check_index_bounds(std::size_t index) const
+    {
+        if (index >= m_length)
+        {
+            throw std::out_of_range{"Array's index is out of bounds"};
+        }
+    }
 
-        [[nodiscard]] bool is_full() const noexcept;
+  public:
+    DynamicArray() = default;
 
-        void copy_to(std::unique_ptr<int[]>& new_array_ptr);
+    DynamicArray(std::initializer_list<T> list)
+        : m_capacity{list.size()}, m_length{list.size()}, m_array_ptr{std::make_unique<T[]>(list.size())}
+    {
+        for (std::size_t i{0}; auto ele : list)
+        {
+            m_array_ptr[i] = ele;
+            ++i;
+        }
+    }
+    DynamicArray(const DynamicArray& array) : m_length{array.m_length}, m_capacity{array.m_capacity},m_array_ptr{std::make_unique<T[]>(m_capacity)}
+    {
+        for (std::size_t i{0}; i < m_length; ++i)
+        {
+            m_array_ptr[i] = array.m_array_ptr[i];
+        }
+    }
+    auto operator=(const DynamicArray& array) -> DynamicArray&
+    {
+        m_length = array.m_length;
+        m_capacity = array.m_capacity;
+        m_array_ptr = std::make_unique<T[]>(m_capacity);
+        for (std::size_t i{0}; i < m_length; ++i)
+        {
+            m_array_ptr[i] = array.m_array_ptr[i];
+        }
+        return *this;
+    }
+    DynamicArray(DynamicArray&& array) noexcept=delete;
+//    auto operator=(DynamicArray&& array) noexcept-> DynamicArray&
+//    {
+//
+//    }
+    virtual ~DynamicArray() = default;
+    [[nodiscard]] auto get_length() const -> std::size_t
+    {
+        return m_length;
+    }
+    auto insert(T ele) -> void
+    {
+        expand_array_if_needed();
+        m_array_ptr[m_length] = ele;
+        ++m_length;
+    }
+    auto insert(T ele, std::size_t index) -> void
+    {
+        expand_array_if_needed();
+        check_index_bounds(index);
+        ++m_length;
+        for (std::size_t i{m_length}; i > index; --i)
+        {
+            m_array_ptr[i] = m_array_ptr[i - 1];
+        }
+        m_array_ptr[index] = ele;
+    }
+    void print() const
+    {
+        std::cout << "Array Length: " << m_length << " Capacity: " << m_capacity << '\n';
+        for (std::size_t i{0}; i < m_length; ++i)
+        {
+            std::cout << "DynamicArray[" << i << "] : " << m_array_ptr.get()[i] << '\n';
+        }
+    }
+    [[nodiscard]] auto operator[](std::size_t index) -> T&
+    {
+        check_index_bounds(index);
+        return m_array_ptr[index];
+    }
+    [[nodiscard]] auto search(T ele) const -> T
+    {
+        for (std::size_t i{0}; i < m_length; ++i)
+        {
+            if (m_array_ptr[i] == ele)
+                return i;
+        }
+        return -1;
+    }
+    auto remove() -> void
+    {
+        --m_length;
+        shrink_array_if_needed();
+    }
+    auto remove(std::size_t index) -> void
+    {
+        check_index_bounds(index);
 
-        void expand_array_if_needed();
+        for (size_t i = index; i < (m_length - 1); ++i)
+        {
+            m_array_ptr[i] = m_array_ptr[i + 1];
+        }
+        --m_length;
+        shrink_array_if_needed();
+    }
+};
 
-        void check_index_bounds(std::size_t index)const;
+template<typename...T>
+DynamicArray(T...args)->DynamicArray<std::any>;
 
-        void shrink_array_if_needed();
+} // namespace ds_impl
 
-    public:
-        DynamicArray();
-
-        DynamicArray(std::initializer_list<int> list);
-
-        DynamicArray(const DynamicArray& array);
-
-        DynamicArray& operator=(const DynamicArray& array);
-
-        explicit DynamicArray(std::size_t capacity);
-
-        [[nodiscard]] std::size_t get_length()const;
-
-        void insert(int ele);
-
-        void insert(int ele, std::size_t index);
-
-        void print() const;
-
-        [[nodiscard]]int& operator[](std::size_t index);
-
-        [[nodiscard]]int search(int ele) const;
-
-        void remove();
-
-        void remove(std::size_t index);
-    };
-}
-
-#endif //DYNAMICARRAY_DYNAMIC_ARRAY_H
+#endif // DYNAMICARRAY_DYNAMIC_ARRAY_H
