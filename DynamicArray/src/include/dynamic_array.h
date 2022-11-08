@@ -5,11 +5,12 @@
 #ifndef DYNAMICARRAY_DYNAMIC_ARRAY_H
 #define DYNAMICARRAY_DYNAMIC_ARRAY_H
 
-#include<any>
+#include <any>
 #include <array>
 #include <cstddef>
 #include <iostream>
 #include <memory>
+#include<utility>
 
 namespace ds_impl
 {
@@ -71,7 +72,8 @@ template <typename T> class DynamicArray
             ++i;
         }
     }
-    DynamicArray(const DynamicArray& array) : m_length{array.m_length}, m_capacity{array.m_capacity},m_array_ptr{std::make_unique<T[]>(m_capacity)}
+    DynamicArray(const DynamicArray& array)
+        : m_length{array.m_length}, m_capacity{array.m_capacity}, m_array_ptr{std::make_unique<T[]>(m_capacity)}
     {
         for (std::size_t i{0}; i < m_length; ++i)
         {
@@ -80,6 +82,10 @@ template <typename T> class DynamicArray
     }
     auto operator=(const DynamicArray& array) -> DynamicArray&
     {
+        if (this == &array)
+        {
+            return *this;
+        }
         m_length = array.m_length;
         m_capacity = array.m_capacity;
         m_array_ptr = std::make_unique<T[]>(m_capacity);
@@ -89,11 +95,27 @@ template <typename T> class DynamicArray
         }
         return *this;
     }
-    DynamicArray(DynamicArray&& array) noexcept=delete;
-//    auto operator=(DynamicArray&& array) noexcept-> DynamicArray&
-//    {
-//
-//    }
+    DynamicArray(DynamicArray&& array) noexcept
+        : m_capacity{array.m_capacity}, m_length{array.m_length}, m_array_ptr{std::move(array.m_array_ptr)}
+    {
+        array.m_capacity = 0;
+        array.m_length = 0;
+        array.m_array_ptr = nullptr;
+    }
+    auto operator=(DynamicArray&& array) noexcept -> DynamicArray&
+    {
+        if (&array==this)
+        {
+            return *this;
+        }
+        m_capacity = array.m_capacity;
+        m_length = array.m_length;
+        m_array_ptr = std::move(array.m_array_ptr);
+        array.m_capacity = 0;
+        array.m_length = 0;
+        array.m_array_ptr = nullptr;
+        return *this;
+    }
     virtual ~DynamicArray() = default;
     [[nodiscard]] auto get_length() const -> std::size_t
     {
@@ -156,8 +178,7 @@ template <typename T> class DynamicArray
     }
 };
 
-template<typename...T>
-DynamicArray(T...args)->DynamicArray<std::any>;
+template <typename... T> DynamicArray(T... args) -> DynamicArray<std::any>;
 
 } // namespace ds_impl
 

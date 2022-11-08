@@ -10,13 +10,18 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(gtest)
 
 enable_testing()
-add_executable(io_tests io_tests.cpp)
+add_executable(
+        io_tests
+        io_tests.cpp
+)
 add_executable(
         non_io_tests
         insertion_tests.cpp
+        other_tests.cpp
 )
 target_link_libraries(
-        non_io_tests PRIVATE GTest::gtest_main
+        non_io_tests
+        PRIVATE GTest::gtest_main
 )
 
 include(GoogleTest)
