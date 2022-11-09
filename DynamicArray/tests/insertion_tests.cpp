@@ -5,15 +5,64 @@
 #include "dynamic_array.h"
 #include "gtest/gtest.h"
 
-TEST(InsertionTests, EmptyArray)
+static const ds_impl::DynamicArray dummy_dynamic_array{1, 2, 3, 4};
+
+TEST(Push, WithZeroElements)
 {
-    ds_impl::DynamicArray dynamic_array{};
-    ASSERT_EQ(dynamic_array.get_length(), 0);
+    constexpr int new_element{12};
+    ds_impl::DynamicArray<int> dynamic_array{};
+    dynamic_array.push(new_element);
+    ASSERT_EQ(dynamic_array[0], new_element);
 }
 
-TEST(InsertionTests, InsertInMiddle)
+TEST(Push, WithMultipleElements)
 {
-    ds_impl::DynamicArray dynamic_array{1, 2, 3, 4};
-    dynamic_array.insert(4, 2);
-    ASSERT_EQ(dynamic_array[2], 4);
+    constexpr int new_element{12};
+    ds_impl::DynamicArray dynamic_array{dummy_dynamic_array};
+    dynamic_array.push(new_element);
+    ASSERT_EQ(dynamic_array[4], new_element);
+}
+
+TEST(Insert,WithZeroElements)
+{
+    constexpr int new_element{4};
+    constexpr std::size_t index{0};
+    bool exception_was_thrown{false};
+    ds_impl::DynamicArray<int> dynamic_array{};
+    try
+    {
+        dynamic_array.insert(new_element, index);
+    }
+    catch(const std::out_of_range&)
+    {
+        exception_was_thrown=true;
+    }
+    ASSERT_EQ(exception_was_thrown,true);
+}
+
+TEST(Insert, AtHead)
+{
+    constexpr int new_element{4};
+    constexpr std::size_t index{0};
+    ds_impl::DynamicArray dynamic_array{dummy_dynamic_array};
+    dynamic_array.insert(new_element, index);
+    ASSERT_EQ(dynamic_array[index], new_element);
+}
+
+TEST(Insert, AtMiddle)
+{
+    constexpr int new_element{4};
+    constexpr std::size_t index{1};
+    ds_impl::DynamicArray dynamic_array{dummy_dynamic_array};
+    dynamic_array.insert(new_element, index);
+    ASSERT_EQ(dynamic_array[index], new_element);
+}
+
+TEST(Insert, AtTail)
+{
+    constexpr int new_element{4};
+    const std::size_t index{dummy_dynamic_array.get_length()-1};
+    ds_impl::DynamicArray dynamic_array{dummy_dynamic_array};
+    dynamic_array.insert(new_element, index);
+    ASSERT_EQ(dynamic_array[index], new_element);
 }

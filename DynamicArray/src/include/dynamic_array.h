@@ -10,7 +10,7 @@
 #include <cstddef>
 #include <iostream>
 #include <memory>
-#include<utility>
+#include <utility>
 
 namespace ds_impl
 {
@@ -104,7 +104,7 @@ template <typename T> class DynamicArray
     }
     auto operator=(DynamicArray&& array) noexcept -> DynamicArray&
     {
-        if (&array==this)
+        if (&array == this)
         {
             return *this;
         }
@@ -121,7 +121,7 @@ template <typename T> class DynamicArray
     {
         return m_length;
     }
-    auto insert(T ele) -> void
+    auto push(T ele) -> void
     {
         expand_array_if_needed();
         m_array_ptr[m_length] = ele;
@@ -151,6 +151,11 @@ template <typename T> class DynamicArray
         check_index_bounds(index);
         return m_array_ptr[index];
     }
+    [[nodiscard]] auto operator[](std::size_t index) const -> T
+    {
+        check_index_bounds(index);
+        return m_array_ptr[index];
+    }
     [[nodiscard]] auto search(T ele) const -> T
     {
         for (std::size_t i{0}; i < m_length; ++i)
@@ -160,8 +165,12 @@ template <typename T> class DynamicArray
         }
         return -1;
     }
-    auto remove() -> void
+    auto pop() -> void
     {
+        if(m_length==0)
+        {
+            throw std::length_error("Array is empty!");
+        }
         --m_length;
         shrink_array_if_needed();
     }
@@ -177,8 +186,6 @@ template <typename T> class DynamicArray
         shrink_array_if_needed();
     }
 };
-
-template <typename... T> DynamicArray(T... args) -> DynamicArray<std::any>;
 
 } // namespace ds_impl
 

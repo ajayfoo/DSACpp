@@ -17,6 +17,8 @@ add_executable(
 add_executable(
         non_io_tests
         insertion_tests.cpp
+        deletion_tests.cpp
+        search_tests.cpp
         other_tests.cpp
 )
 target_link_libraries(
