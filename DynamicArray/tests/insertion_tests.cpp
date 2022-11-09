@@ -27,17 +27,8 @@ TEST(Insert,WithZeroElements)
 {
     constexpr int new_element{4};
     constexpr std::size_t index{0};
-    bool exception_was_thrown{false};
     ds_impl::DynamicArray<int> dynamic_array{};
-    try
-    {
-        dynamic_array.insert(new_element, index);
-    }
-    catch(const std::out_of_range&)
-    {
-        exception_was_thrown=true;
-    }
-    ASSERT_EQ(exception_was_thrown,true);
+    ASSERT_THROW(dynamic_array.insert(new_element,index),std::out_of_range);
 }
 
 TEST(Insert, AtHead)

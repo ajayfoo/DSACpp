@@ -11,16 +11,7 @@ static const ds_impl::DynamicArray dummy_dynamic_array{1, 2, 3, 4};
 TEST(Pop, WithZeroElements)
 {
     ds_impl::DynamicArray<int> dynamic_array{};
-    bool exception_was_thrown{false};
-    try
-    {
-        dynamic_array.pop();
-    }
-    catch (const std::length_error&)
-    {
-        exception_was_thrown = true;
-    }
-    ASSERT_EQ(exception_was_thrown, true);
+    ASSERT_THROW(dynamic_array.pop(), std::length_error);
 }
 
 TEST(Pop, WithMultipleElements)
