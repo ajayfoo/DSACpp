@@ -11,7 +11,7 @@ FetchContent_MakeAvailable(gtest)
 
 enable_testing()
 
-add_executable(io_tests io_tests.cpp)
+add_executable(io_tests io_tests.cpp pop_tests.cpp other_tests.cpp peek_tests.cpp)
 add_executable(
         non_io_tests
         push_tests.cpp

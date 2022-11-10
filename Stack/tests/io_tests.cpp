@@ -4,17 +4,13 @@
 
 #include "stack.h"
 
-void test_print_stack()
+auto test_print_stack()->void
 {
-    ds_impl::Stack<int,5> stack{};
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
-    stack.push(4);
+    const ds_impl::Stack stack{1,2,3,4};
     stack.print();
 }
 
-int main()
+auto main() -> int
 {
     test_print_stack();
     return 0;

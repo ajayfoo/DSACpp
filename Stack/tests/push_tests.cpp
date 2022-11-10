@@ -5,15 +5,26 @@
 #include "stack.h"
 #include "gtest/gtest.h"
 
-TEST(PushTests,EmptyStack)
+TEST(Push, WithZeroElements)
 {
-    ds_impl::Stack<int,2> stack{};
-    ASSERT_EQ(stack.get_length(),0);
+    constexpr int new_element{1};
+    ds_impl::Stack<int, 2> stack{};
+    stack.push(new_element);
+    ASSERT_EQ(stack.peek(), new_element);
 }
 
-TEST(PushTests,Push)
+TEST(Push, WithZeroCapacity)
 {
-    ds_impl::Stack<int,1> stack{};
-    stack.push(3);
-    ASSERT_EQ(stack.peek(),3);
+    constexpr int new_element{1};
+    ds_impl::Stack stack{};
+    ASSERT_THROW(stack.push(new_element),std::length_error);
+}
+
+TEST(Push, WithMultipleElements)
+{
+    constexpr int new_element{1};
+    ds_impl::Stack stack1{1,2,3,4};
+    ds_impl::Stack<int, 4> stack{1, 2, 3};
+    stack.push(new_element);
+    ASSERT_EQ(stack.peek(), new_element);
 }
