@@ -1,0 +1,3 @@
+add_library(simple_queue include/simple_queue.h)
+set_target_properties(simple_queue PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(simple_queue PUBLIC include)
