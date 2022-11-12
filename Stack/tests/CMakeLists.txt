@@ -15,6 +15,9 @@ add_executable(io_tests io_tests.cpp pop_tests.cpp other_tests.cpp peek_tests.cp
 add_executable(
         non_io_tests
         push_tests.cpp
+        pop_tests.cpp
+        peek_tests.cpp
+        other_tests.cpp
 )
 target_link_libraries(
         non_io_tests PRIVATE GTest::gtest_main

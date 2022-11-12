@@ -1,9 +1,5 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.20)
 project(Stack)
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_C_STANDARD_REQUIRED TRUE)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(DO_TESTS TRUE)
 
@@ -13,4 +9,10 @@ if(DO_TESTS)
     add_subdirectory(tests)
     target_link_libraries(io_tests PRIVATE stack)
     target_link_libraries(non_io_tests PRIVATE stack)
+endif()
+
+if(CMAKE_EXPORT_COMPILE_COMMANDS)
+    if(NOT EXISTS ${CMAKE_SOURCE_DIR}/build/compile_commands.json) 
+        file(CREATE_LINK ${CMAKE_BINARY_DIR}/compile_commands.json ${CMAKE_SOURCE_DIR}/build/compile_commands.json SYMBOLIC)
+    endif()
 endif()

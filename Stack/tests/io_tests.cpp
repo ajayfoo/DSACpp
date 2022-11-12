@@ -4,9 +4,9 @@
 
 #include "stack.h"
 
-auto test_print_stack()->void
+auto test_print_stack() -> void
 {
-    const ds_impl::Stack stack{1,2,3,4};
+    const ds_impl::Stack stack{1, 2, 3, 4};
     stack.print();
 }
 
