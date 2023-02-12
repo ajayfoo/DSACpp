@@ -2,13 +2,13 @@
 #include <iostream>
 
 static constexpr int N = 5;
-class Queue {
+class CircularQueue {
   int m_array[N];
   int m_front = -1;
-  int m_rear = -1;
+  int m_rear = -2;
   void reset() {
     m_front = -1;
-    m_rear = -1;
+    m_rear = -2;
   }
 
 public:
@@ -17,8 +17,8 @@ public:
       return 0;
     return (m_rear - m_front) + 1;
   }
-  bool is_full() { return m_rear == N - 1; }
-  bool is_empty() { return m_front == -1 && m_rear == -1; }
+  bool is_full() { return (m_rear + 1) % N == m_front; }
+  bool is_empty() { return m_front > m_rear; }
   void enqueue(int ele) {
     if (is_full()) {
       std::cerr << "Can't enqueue, Queue is full\n";
@@ -26,8 +26,11 @@ public:
     }
     if (is_empty()) {
       m_front = 0;
+      m_rear = 0;
+    } else {
+      m_rear = (m_rear + 1) % N;
     }
-    m_array[++m_rear] = ele;
+    m_array[m_rear] = ele;
   }
 
   void dequeue() {
@@ -35,11 +38,7 @@ public:
       std::cerr << "Can't dequeue, Queue is empty\n";
       return;
     }
-    if (m_front == m_rear)
-      reset();
-    else {
-      ++m_front;
-    }
+    m_front = (m_front + 1) % N;
   }
   int get() {
     assert(!is_empty() && "Queue is empty");
@@ -48,7 +47,7 @@ public:
 };
 
 int main() {
-  Queue q;
+  CircularQueue q;
   q.enqueue(7);
   q.enqueue(8);
   q.enqueue(9);
