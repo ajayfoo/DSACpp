@@ -20,6 +20,7 @@ class SinglyList {
   }
 
 public:
+  bool is_empty() { return get_size() == 0; }
   int get_size() {
     Node *curr = m_head;
     int size = 0;
@@ -104,6 +105,32 @@ public:
     }
     std::cout << curr->key << '\n';
   }
+  int search(int key) {
+    int index = -1;
+    Node *curr = m_head;
+    while (curr != nullptr) {
+      ++index;
+      if (curr->key == key) {
+        return index;
+      }
+      curr = curr->next;
+    }
+    return -1;
+  }
+  void reverse() {
+    Node *curr = m_head;
+    Node *prev = nullptr;
+    Node *next = nullptr;
+    while (curr != nullptr) {
+      next = curr->next;
+      curr->next = prev;
+      prev = curr;
+      curr = next;
+    }
+    curr = m_head;
+    m_head = m_tail;
+    m_tail = curr;
+  }
 };
 
 void test_singly_list() {
@@ -126,6 +153,14 @@ void test_singly_list() {
   ll.display();
   ll.insert_at(2, 98);
   std::cout << "After inserting 98 at index 2\n";
+  ll.display();
+  int key = 98;
+  std::cout << "Key " << key << " is at index: " << ll.search(key) << '\n';
+  ll.reverse();
+  std::cout << "After reversing:-\n";
+  ll.display();
+  ll.reverse();
+  std::cout << "After reversing:-\n";
   ll.display();
 }
 
