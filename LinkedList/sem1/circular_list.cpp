@@ -1,7 +1,7 @@
 #include <cassert>
 #include <iostream>
 
-class SinglyList {
+class CircularList {
   struct Node {
     int key;
     Node *next = nullptr;
@@ -10,42 +10,48 @@ class SinglyList {
   Node *m_head = nullptr;
   Node *m_tail = nullptr;
   Node *get_node_before(int index) {
-    Node *curr = m_head;
+    Node *curr = m_tail->next;
     int curr_index = 0;
-    while (curr_index != index - 1) {
+    do {
       curr = curr->next;
       ++curr_index;
-    }
+    } while (curr_index != index - 1);
     return curr;
   }
 
 public:
   bool is_empty() { return get_size() == 0; }
   int get_size() {
-    Node *curr = m_head;
+    if (m_tail == nullptr) {
+      return 0;
+    }
+    Node *curr = m_tail->next;
     int size = 0;
-    while (curr != nullptr) {
+    do {
       ++size;
       curr = curr->next;
-    }
+    } while (curr != m_tail->next);
     return size;
   }
   void insert_at_head(int key) {
     Node *new_node = new Node(key);
     if (get_size() == 0) {
-      m_tail = m_head = new_node;
+      m_tail = new_node;
+      m_tail->next = m_tail;
     } else {
-      new_node->next = m_head;
-      m_head = new_node;
+      new_node->next = m_tail->next;
+      m_tail->next = new_node;
     }
   }
   void insert_after_tail(int key) {
     Node *new_node = new Node(key);
     if (get_size() == 0) {
-      m_head = m_tail = new_node;
+      insert_at_head(key);
     } else {
+      Node *head = m_tail->next;
       m_tail->next = new_node;
       m_tail = m_tail->next;
+      m_tail->next = head;
     }
   }
   void insert_at(int index, int key) {
@@ -62,10 +68,11 @@ public:
   }
   void delete_head() {
     assert(get_size() != 0 && "Can't delete head, linked list is empty");
-    Node *deletion_node = m_head;
-    m_head = m_head->next;
-    if (get_size() == 0) {
+    Node *deletion_node = m_tail->next;
+    if (get_size() == 1) {
       m_tail = nullptr;
+    } else {
+      m_tail->next = deletion_node->next;
     }
     delete deletion_node;
   }
@@ -74,9 +81,10 @@ public:
     if (get_size() == 1) {
       delete_head();
     } else {
+      Node *head = m_tail->next;
       Node *deletion_node = m_tail;
       m_tail = get_node_before(get_size() - 1);
-      m_tail->next = nullptr;
+      m_tail->next = head;
       delete deletion_node;
     }
   }
@@ -95,45 +103,45 @@ public:
     }
   }
   void display() {
-    std::cout << "Singly List(" << get_size() << ") : ";
+    std::cout << "Circular List(" << get_size() << ") : ";
     if (get_size() == 0)
       return;
-    Node *curr = m_head;
-    while (curr != m_tail) {
+    Node *curr = m_tail->next;
+    do {
       std::cout << curr->key << " -> ";
       curr = curr->next;
-    }
-    std::cout << curr->key << '\n';
+    } while (curr != m_tail->next);
+    std::cout << '\n';
   }
   int search(int key) {
     int index = -1;
-    Node *curr = m_head;
-    while (curr != nullptr) {
+    Node *curr = m_tail->next;
+    do {
       ++index;
       if (curr->key == key) {
         return index;
       }
       curr = curr->next;
-    }
+    } while (curr != m_tail->next);
     return -1;
   }
   void reverse() {
-    Node *curr = m_head;
-    Node *prev = nullptr;
+    Node *head = m_tail->next;
+    Node *prev = m_tail;
+    Node *curr = m_tail->next;
     Node *next = nullptr;
-    while (curr != nullptr) {
+    do {
       next = curr->next;
       curr->next = prev;
       prev = curr;
       curr = next;
-    }
-    m_tail = m_head;
-    m_head = prev;
+    } while (curr != head);
+    m_tail = head;
   }
 };
 
-void test_singly_list() {
-  SinglyList ll;
+void test_circular_list() {
+  CircularList ll;
   ll.insert_after_tail(33);
   ll.insert_after_tail(3);
   ll.insert_after_tail(2);
@@ -164,6 +172,6 @@ void test_singly_list() {
 }
 
 int main() {
-  test_singly_list();
+  test_circular_list();
   return 0;
 }
