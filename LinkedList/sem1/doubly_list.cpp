@@ -19,6 +19,11 @@ class DoublyList {
     }
     return curr;
   }
+  void swap_node(Node *&a, Node *&b) {
+    Node *temp = a;
+    a = b;
+    b = temp;
+  }
 
 public:
   bool is_empty() { return get_size() == 0; }
@@ -140,21 +145,18 @@ public:
     return -1;
   }
   void reverse() {
+    if (is_empty())
+      return;
     Node *curr = m_head;
-    Node *prev = nullptr;
-    Node *next = nullptr;
     while (curr != nullptr) {
-      next = curr->next;
-      curr->next = prev;
-      prev = curr;
-      curr = next;
+      swap_node(curr->next, curr->prev);
+      curr = curr->prev;
     }
-    m_tail = m_head;
-    m_head = prev;
+    swap_node(m_head, m_tail);
   }
 };
 
-void test_singly_list() {
+void test_doubly_list() {
   DoublyList ll;
   ll.insert_after_tail(33);
   ll.insert_after_tail(3);
@@ -186,27 +188,6 @@ void test_singly_list() {
 }
 
 int main() {
-  DoublyList ll;
-  ll.insert_after_tail(33);
-  ll.insert_after_tail(3);
-  ll.insert_after_tail(2);
-  ll.insert_after_tail(43);
-  ll.insert_at_head(99);
-  ll.insert_at(4, 32);
-  ll.display();
-  ll.delete_head();
-  std::cout << "After deleting head\n";
-  ll.display();
-  ll.delete_tail();
-  std::cout << "After deleting tail\n";
-  ll.display();
-  ll.delete_at(2);
-  std::cout << "After deleting node at index 2\n";
-  ll.display();
-  ll.insert_at(2, 98);
-  std::cout << "After inserting 98 at index 2\n";
-  ll.display();
-  int key = 98;
-  std::cout << "Key " << key << " is at index: " << ll.search(key) << '\n';
+  test_doubly_list();
   return 0;
 }
