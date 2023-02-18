@@ -15,7 +15,11 @@ public:
   int get_length() {
     if (is_empty())
       return 0;
-    return (N - (m_front - m_rear)) + 1;
+    if (m_rear >= m_front) {
+      return m_rear - m_front + 1;
+    } else {
+      return (N - (m_front - m_rear - 1));
+    }
   }
   bool is_full() { return (m_rear + 1) % N == m_front; }
   bool is_empty() { return m_front == -1 && m_rear == -1; }
