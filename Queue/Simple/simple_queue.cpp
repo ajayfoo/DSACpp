@@ -58,17 +58,10 @@ int main() {
   q.dequeue();
   q.dequeue();
   q.dequeue();
-
-  std::cout << "Length: " << q.get_length() << '\n';
   std::cout << "Front: " << q.get() << '\n';
-  q.dequeue();
   std::cout << "Length: " << q.get_length() << '\n';
   q.enqueue(11);
-  q.enqueue(12);
-  q.enqueue(13);
-  q.enqueue(14);
-  q.enqueue(15);
-  std::cout << "Length: " << q.get_length() << '\n';
   std::cout << "Front: " << q.get() << '\n';
-  q.enqueue(16);
+  std::cout << "Length: " << q.get_length() << '\n';
+  q.enqueue(12);
 }
