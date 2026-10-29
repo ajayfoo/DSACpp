@@ -1,2 +1,2 @@
-# DSImplCpp
-My implementation of Data Structures in C++.
+# DSACpp
+My implementation of Data Structures in modern C++.
